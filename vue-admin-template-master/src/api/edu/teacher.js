@@ -26,5 +26,12 @@ export default{
             url:`/edu/teacher/getTeacher/${id}`,
             method:'get'
         })
+    },
+    updateTeacherInfo(teacher){
+        return request({
+            url:`/edu/teacher/updateTeacher`,
+            method:'post',
+            data:teacher
+        })
     }
 }

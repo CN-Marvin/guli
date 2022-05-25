@@ -27,7 +27,7 @@
             </el-form-item>
             <!-- 讲师头像：TODO -->
             <el-form-item>
-                <el-button :disabled="saveBtnDisabled" type="primary" @click="saveTeacher">保存</el-button>
+                <el-button :disabled="saveBtnDisabled" type="primary" @click="saveOrUpdate()">保存</el-button>
             </el-form-item>
         </el-form>
     </div>
@@ -49,11 +49,19 @@ export default {
         }
     },
     created(){
-
+        if(this.$route.params && this.$route.params.id){
+            const id = this.$route.params.id
+            this.getInfo(id)
+        }
     },
     methods:{
         saveOrUpdate(){
-            
+            debugger
+            if(!this.teacher.id){
+                this.saveTeacher()
+            }else{
+                this.updateTeacher()
+            }
         },
         saveTeacher(){
             teacher.addTeacher(this.teacher)
@@ -65,10 +73,21 @@ export default {
                 this.$router.push({path:'/teacher/table'})
             })
         },
+        //修改讲师的数据回显
         getInfo(id){
             teacher.getTeacherInfo(id)
             .then(response => {
                 this.teacher = response.data.teacher
+            })
+        },
+        updateTeacher(){
+            teacher.updateTeacherInfo(this.teacher)
+            .then(response => {
+                this.$message({
+                    type:'success',
+                    message:'修改成功！'
+                })
+                this.$router.push({path:'/teacher/table'})
             })
         }
     }
