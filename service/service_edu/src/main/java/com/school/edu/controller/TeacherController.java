@@ -7,7 +7,6 @@ import com.school.common.utils.R;
 import com.school.edu.entity.Teacher;
 import com.school.edu.entity.vo.TeacherQuery;
 import com.school.edu.service.TeacherService;
-import com.school.guli.config.handler.exceptionhandler.GuliException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -28,6 +27,7 @@ import java.util.List;
 @Api(tags = "讲师管理")
 @RestController
 @RequestMapping("/edu/teacher")
+@CrossOrigin
 public class TeacherController {
     @Resource
     private TeacherService teacherService;
@@ -62,7 +62,7 @@ public class TeacherController {
     }
 
     @ApiOperation("条件查询带分页")
-    @PostMapping("/pageTeachCondition/{current}/{limit}")
+    @PostMapping("/pageTeacherCondition/{current}/{limit}")
     public R pageTeacherCondition(@PathVariable long current,
                                   @PathVariable long limit,
                                   @RequestBody(required = false) TeacherQuery teacherQuery) {
@@ -84,6 +84,8 @@ public class TeacherController {
         if (!StringUtils.isEmpty(end)) {
             wrapper.le("gmt_create", end);
         }
+
+        wrapper.orderByDesc("gmt_create");
         teacherService.page(teacherPage, wrapper);
 
         List<Teacher> records = teacherPage.getRecords();
@@ -105,11 +107,6 @@ public class TeacherController {
     @ApiOperation("根据id查询讲师")
     @GetMapping("/getTeacher/{id}")
     public R getTeacher(@ApiParam(name = "id", value = "讲师id", required = true) @PathVariable("id") String id) {
-        try {
-            int i = 10 / 0;
-        } catch (Exception e) {
-            throw new GuliException(500, "自定义异常处理");
-        }
         Teacher eduTeacher = teacherService.getById(id);
         return R.ok().data("teacher", eduTeacher);
     }
