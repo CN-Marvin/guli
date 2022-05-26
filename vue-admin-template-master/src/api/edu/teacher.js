@@ -3,33 +3,33 @@ import request from '@/utils/request'
 export default{
     getTeacherListPage(current,limit,teacherQuery){
         return request({
-          url: `/edu/teacher/pageTeacherCondition/${current}/${limit}`,
+          url: `/eduService/teacher/pageTeacherCondition/${current}/${limit}`,
           method: 'post',
           data: teacherQuery  
         })
     },
     deleteTeacherId(id){
         return request({
-            url: `/edu/teacher/${id}`,
+            url: `/eduService/teacher/${id}`,
             method: 'delete'
         })
     },
     addTeacher(teacher){
         return request({
-            url:`/edu/teacher/addTeacher`,
+            url:`/eduService/teacher/addTeacher`,
             method: 'post',
             data: teacher
         })
     },
     getTeacherInfo(id){
         return request({
-            url:`/edu/teacher/getTeacher/${id}`,
+            url:`/eduService/teacher/getTeacher/${id}`,
             method:'get'
         })
     },
     updateTeacherInfo(teacher){
         return request({
-            url:`/edu/teacher/updateTeacher`,
+            url:`/eduService/teacher/updateTeacher`,
             method:'post',
             data:teacher
         })
