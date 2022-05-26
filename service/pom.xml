@@ -13,6 +13,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>service_edu</module>
+        <module>service-oss</module>
     </modules>
 
     <properties>
@@ -116,6 +117,12 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.12</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.school</groupId>
+            <artifactId>service_base</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
 
