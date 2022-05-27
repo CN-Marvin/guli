@@ -10,6 +10,6 @@ aliyun:
   oss:
     file:
       endpoint: oss-cn-hangzhou.aliyuncs.com
-      keyid: LTAI5tLcD8PnmddQiZFtTwzN
-      keysecret: 67yGEqTafg3KNkRmyLue2bEiRhMEUn
+      keyid: 
+      keysecret:
       bucketname: edu-school-demo
