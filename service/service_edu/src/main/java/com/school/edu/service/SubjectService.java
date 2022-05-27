@@ -2,7 +2,10 @@ package com.school.edu.service;
 
 import com.school.edu.entity.Subject;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.school.edu.entity.subject.OneSubject;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 /**
  * <p>
@@ -20,4 +23,10 @@ public interface SubjectService extends IService<Subject> {
      * @param subjectService
      */
     void saveSubject(MultipartFile file,SubjectService subjectService);
+
+    /**
+     * 获得所有课程分类列表
+     * @return 课程分类列表
+     */
+    List<OneSubject> getAllOneTwoSubject();
 }
