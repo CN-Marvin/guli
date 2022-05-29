@@ -1,9 +1,14 @@
 package com.school.edu.controller;
 
 
-import org.springframework.web.bind.annotation.RequestMapping;
+import com.school.common.utils.R;
+import com.school.edu.entity.Video;
+import com.school.edu.service.VideoService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.web.bind.annotation.*;
 
-import org.springframework.web.bind.annotation.RestController;
+import javax.annotation.Resource;
 
 /**
  * <p>
@@ -13,9 +18,40 @@ import org.springframework.web.bind.annotation.RestController;
  * @author marvin-zl
  * @since 2022-05-27
  */
+@Api(tags = "小节视频管理")
 @RestController
-@RequestMapping("/edu/video")
+@RequestMapping("/eduService/video")
+@CrossOrigin
 public class VideoController {
+    @Resource
+    private VideoService videoService;
 
+    @ApiOperation("添加小节")
+    @PostMapping("addVideo")
+    public R addVideo(@RequestBody Video video) {
+        videoService.save(video);
+        return R.ok();
+    }
+
+    @ApiOperation("删除小节")
+    @DeleteMapping("{id}")
+    public R deleteVideo(@PathVariable String id) {
+        videoService.removeById(id);
+        return R.ok();
+    }
+
+    @ApiOperation("根据id获得video信息")
+    @GetMapping("{id}")
+    public R getVideoById(@PathVariable String id) {
+        Video video = videoService.getById(id);
+        return R.ok().data("video", video);
+    }
+
+    @ApiOperation("更新video信息")
+    @PostMapping("updateVideo")
+    public R updateVideo(@RequestBody Video video) {
+        videoService.updateById(video);
+        return R.ok();
+    }
 }
 
