@@ -1,15 +1,19 @@
 package com.school.edu.controller;
 
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.school.common.utils.R;
+import com.school.edu.entity.Course;
 import com.school.edu.entity.vo.CourseInfoVo;
 import com.school.edu.entity.vo.CoursePublishVo;
+import com.school.edu.entity.vo.CourseQuery;
 import com.school.edu.service.CourseService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * <p>
@@ -26,6 +30,25 @@ import javax.annotation.Resource;
 public class CourseController {
     @Resource
     private CourseService courseService;
+
+    @ApiOperation("条件查询课程列表")
+    @PostMapping("/findCourseListCondition/{page}/{limit}")
+    public R findCourseListCondition(@PathVariable long page,
+                                     @PathVariable long limit,
+                                     @RequestBody(required = false) CourseQuery courseQuery){
+        Page<Course> iPage = new Page<>(page,limit);
+        Page<Course> resPage = courseService.findCourseListCondition(iPage,courseQuery);
+        List<Course> list = resPage.getRecords();
+        long total = resPage.getTotal();
+        return R.ok().data("list",list).data("total",total);
+    }
+
+    @ApiOperation("查询所有课程")
+    @GetMapping("/getAll")
+    public R getAllCourse(){
+        List<Course> list = courseService.list(null);
+        return R.ok().data("list",list);
+    }
 
     @ApiOperation("添加课程基本信息")
     @PostMapping("/addCourseInfo")
@@ -53,6 +76,21 @@ public class CourseController {
     public R getPublishCourseInfo(@PathVariable String courseId){
         CoursePublishVo coursePublishVo = courseService.publishCourseInfo(courseId);
         return R.ok().data("info",coursePublishVo);
+    }
+    @ApiOperation("修改课程状态为已发布")
+    @PostMapping("publishCourse/{id}")
+    public R publishCourse(@PathVariable String id){
+        Course course = new Course();
+        course.setId(id);
+        course.setStatus("Normal");
+        courseService.updateById(course);
+        return R.ok();
+    }
+    @ApiOperation("删除课程")
+    @DeleteMapping("/{courseId}")
+    public R deleteCourse(@PathVariable String courseId){
+        courseService.deleteCourse(courseId);
+        return R.ok();
     }
 }
 

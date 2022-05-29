@@ -29,4 +29,11 @@ public interface ChapterService extends IService<Chapter> {
      * @return
      */
     boolean deleteChapter(String chapterId);
+
+    /**
+     * 根据课程id删除小节
+     * @param courseId
+     */
+    void deleteChapterByCourseId(String courseId);
+
 }
