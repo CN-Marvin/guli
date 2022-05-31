@@ -4,13 +4,11 @@ import com.school.common.utils.R;
 import com.school.guli.service.VodService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * 功能描述：
@@ -32,5 +30,19 @@ public class VodController {
     public R uploadVideo(MultipartFile file) {
         String videoId = vodService.uploadVideo(file);
         return R.ok().data("videoId",videoId);
+    }
+
+    @ApiOperation("从阿里云中删除视频")
+    @DeleteMapping("/deleteVideo/{videoId}")
+    public R deleteVideo(@PathVariable String videoId){
+        vodService.removeVideo(videoId);
+        return R.ok();
+    }
+
+    @ApiOperation("从阿里云中删除多个视频")
+    @DeleteMapping("/deleteVideoBatch")
+    public R deleteVideo(@RequestBody List<String> videoList){
+        vodService.removeVideoBatch(videoList);
+        return R.ok();
     }
 }

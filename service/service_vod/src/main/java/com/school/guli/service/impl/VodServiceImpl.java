@@ -3,13 +3,19 @@ package com.school.guli.service.impl;
 import com.aliyun.vod.upload.impl.UploadVideoImpl;
 import com.aliyun.vod.upload.req.UploadStreamRequest;
 import com.aliyun.vod.upload.resp.UploadStreamResponse;
+import com.aliyuncs.DefaultAcsClient;
+import com.aliyuncs.vod.model.v20170321.DeleteVideoRequest;
 import com.school.guli.config.handler.exceptionhandler.GuliException;
 import com.school.guli.service.VodService;
 import com.school.guli.utils.ConstantVodUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.InputStream;
+import java.util.List;
+
+import static com.school.guli.utils.InitVodClient.initVodClient;
 
 /**
  * 功能描述：
@@ -47,6 +53,33 @@ public class VodServiceImpl implements VodService {
         } catch (Exception e) {
             e.printStackTrace();
             throw new GuliException(20001,"上传失败");
+        }
+    }
+
+    @Override
+    public void removeVideo(String videoId) {
+        try {
+            DefaultAcsClient client = initVodClient(ConstantVodUtils.ACCESS_KEY_ID, ConstantVodUtils.ACCESS_KEY_SECRET);
+            DeleteVideoRequest request = new DeleteVideoRequest();
+            //支持传入多个视频ID，多个用逗号分隔
+            request.setVideoIds(videoId);
+            client.getAcsResponse(request);
+        } catch (Exception e) {
+            throw new GuliException(20001,"删除视频失败");
+        }
+    }
+
+    @Override
+    public void removeVideoBatch(List<String> videoList) {
+        try {
+            DefaultAcsClient client = initVodClient(ConstantVodUtils.ACCESS_KEY_ID, ConstantVodUtils.ACCESS_KEY_SECRET);
+            DeleteVideoRequest request = new DeleteVideoRequest();
+            //支持传入多个视频ID，多个用逗号分隔
+            String videos = StringUtils.join(videoList.toArray(), ",");
+            request.setVideoIds(videos);
+            client.getAcsResponse(request);
+        } catch (Exception e) {
+            throw new GuliException(20001,"删除视频失败");
         }
     }
 }

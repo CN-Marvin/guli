@@ -2,10 +2,12 @@ package com.school.edu.controller;
 
 
 import com.school.common.utils.R;
+import com.school.edu.client.VodClient;
 import com.school.edu.entity.Video;
 import com.school.edu.service.VideoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -26,16 +28,25 @@ public class VideoController {
     @Resource
     private VideoService videoService;
 
+    @Resource
+    private VodClient vodClient;
+
     @ApiOperation("添加小节")
     @PostMapping("addVideo")
     public R addVideo(@RequestBody Video video) {
         videoService.save(video);
+
         return R.ok();
     }
 
     @ApiOperation("删除小节")
     @DeleteMapping("{id}")
-    public R deleteVideo(@PathVariable String id) {
+    public R deleteVideo(@PathVariable("id") String id) {
+        Video video = videoService.getById(id);
+        String videoSourceId = video.getVideoSourceId();
+        if(!StringUtils.isEmpty(videoSourceId)){
+            vodClient.deleteVideo(videoSourceId);
+        }
         videoService.removeById(id);
         return R.ok();
     }
