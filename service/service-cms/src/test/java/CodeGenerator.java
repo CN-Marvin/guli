@@ -46,7 +46,7 @@ public class CodeGenerator {
 
         // 4、包配置
         PackageConfig pc = new PackageConfig();
-        pc.setModuleName("edu"); //模块名
+        pc.setModuleName("cms"); //模块名
         pc.setParent("com.school");
         pc.setController("controller");
         pc.setEntity("entity");
@@ -56,7 +56,7 @@ public class CodeGenerator {
 
         // 5、策略配置
         StrategyConfig strategy = new StrategyConfig();
-        strategy.setInclude("edu_course","edu_course_description","edu_chapter","edu_video");
+        strategy.setInclude("crm_banner");
         strategy.setNaming(NamingStrategy.underline_to_camel);//数据库表映射到实体的命名策略
         strategy.setTablePrefix(pc.getModuleName() + "_"); //生成实体时去掉表前缀
 
