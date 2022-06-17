@@ -1,7 +1,14 @@
 package com.school.guli.controller;
 
+import com.aliyuncs.DefaultAcsClient;
+import com.aliyuncs.exceptions.ClientException;
+import com.aliyuncs.vod.model.v20170321.GetVideoPlayAuthRequest;
+import com.aliyuncs.vod.model.v20170321.GetVideoPlayAuthResponse;
 import com.school.common.utils.R;
+import com.school.guli.config.handler.exceptionhandler.GuliException;
 import com.school.guli.service.VodService;
+import com.school.guli.utils.ConstantVodUtils;
+import com.school.guli.utils.InitVodClient;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +27,6 @@ import java.util.List;
 @Api(tags = "上传视频管理")
 @RestController
 @RequestMapping("/eduvod/video")
-@CrossOrigin
 public class VodController {
     @Resource
     private VodService vodService;
@@ -44,5 +50,23 @@ public class VodController {
     public R deleteVideo(@RequestBody List<String> videoList){
         vodService.removeVideoBatch(videoList);
         return R.ok();
+    }
+
+    @ApiOperation("根据视频id获得视频凭证")
+    @GetMapping("getPlayAuth/{vid}")
+    public R getPlayAuth(@PathVariable String vid){
+
+        try {
+            DefaultAcsClient client = InitVodClient.initVodClient(ConstantVodUtils.ACCESS_KEY_ID, ConstantVodUtils.ACCESS_KEY_SECRET);
+            GetVideoPlayAuthRequest request = new GetVideoPlayAuthRequest();
+
+            request.setVideoId(vid);
+            GetVideoPlayAuthResponse response = client.getAcsResponse(request);
+            String playAuth = response.getPlayAuth();
+
+            return R.ok().data("playAuth",playAuth);
+        } catch (ClientException e) {
+            throw new GuliException(20001,"error");
+        }
     }
 }

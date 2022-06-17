@@ -1,5 +1,7 @@
 package com.school.msm.service;
 
+import java.util.Map;
+
 /**
  * 功能描述：
  *
@@ -8,4 +10,11 @@ package com.school.msm.service;
  * @date: 2022/6/1 15:53
  */
 public interface MsmService {
+    /**
+     * 发送短信
+     * @param param
+     * @param phone
+     * @return
+     */
+    boolean send(Map<String, Object> param, String phone);
 }

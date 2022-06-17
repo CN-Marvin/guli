@@ -24,7 +24,6 @@ import java.util.List;
 @Api(tags = "前台banner管理")
 @RestController
 @RequestMapping("/cmsservice/bannerfront")
-@CrossOrigin
 public class CrmBannerFrontController {
     @Resource
     private CrmBannerService crmBannerService;

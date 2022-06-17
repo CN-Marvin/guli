@@ -22,7 +22,7 @@ import javax.annotation.Resource;
 @Api(tags = "后台banner管理")
 @RestController
 @RequestMapping("/cmsservice/banneradmin")
-@CrossOrigin
+
 public class CrmBannerAdminController {
 
     @Resource

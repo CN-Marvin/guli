@@ -20,14 +20,14 @@ import javax.annotation.Resource;
  */
 @RestController
 @RequestMapping("/eduoss/fileoss")
-@CrossOrigin
+
 public class OssController {
     @Resource
     private OssService ossService;
 
     @PostMapping("/uploadFile")
-    public R uploadOssFile(MultipartFile file){
+    public R uploadOssFile(MultipartFile file) {
         String url = ossService.uploadFileAvatar(file);
-        return R.ok().data("imageUrl",url);
+        return R.ok().data("imageUrl", url);
     }
 }

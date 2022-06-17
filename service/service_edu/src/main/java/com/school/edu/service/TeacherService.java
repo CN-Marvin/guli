@@ -1,7 +1,10 @@
 package com.school.edu.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.school.edu.entity.Teacher;
 import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.util.Map;
 
 /**
  * <p>
@@ -13,4 +16,10 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface TeacherService extends IService<Teacher> {
 
+    /**
+     * 分页查询教师
+     * @param teacherPage
+     * @return
+     */
+    Map<String, Object> getTeacherFrontList(Page<Teacher> teacherPage);
 }

@@ -3,6 +3,7 @@ package com.school.edu.mapper;
 import com.school.edu.entity.Course;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.school.edu.entity.vo.CoursePublishVo;
+import com.school.edu.entity.vo.CourseWebVo;
 
 /**
  * <p>
@@ -19,4 +20,11 @@ public interface CourseMapper extends BaseMapper<Course> {
      * @return
      */
     public CoursePublishVo getCoursePublishInfo(String courseId);
+
+    /**
+     * 前台 根据课程id查询课程具体信息
+     * @param courseId
+     * @return
+     */
+    CourseWebVo getBaseCourseInfo(String courseId);
 }

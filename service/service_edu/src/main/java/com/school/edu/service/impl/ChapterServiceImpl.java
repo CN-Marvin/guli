@@ -35,6 +35,7 @@ public class ChapterServiceImpl extends ServiceImpl<ChapterMapper, Chapter> impl
     public List<ChapterVo> getChapterVideoCourseById(String courseId) {
         QueryWrapper<Chapter> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("course_id", courseId);
+        queryWrapper.orderByAsc("sort");
         List<Chapter> chapters = baseMapper.selectList(queryWrapper);
 
         List<ChapterVo> finalChapterVos = new ArrayList<>();
